@@ -78,7 +78,7 @@ public class VehicleQueue implements ClockObserver {
             greenLight = !greenLight;
             timeSinceLastExit  = currentTime;
         }
-        System.out.println(greenLight);
+        
 
 
 
@@ -117,7 +117,7 @@ public class VehicleQueue implements ClockObserver {
             leave();
         }*/
 
-        System.out.println(getSize());
+        
 
 
     }
