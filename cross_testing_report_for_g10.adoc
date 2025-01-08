@@ -1,0 +1,59 @@
+= Cross-Testing Feedback
+
+__Conducting Group: 11__
+__Application of Group: 10__
+
+== Tested System
+The Application provides a shop to sell and repair multiple types of clocks as well as organize the shop and its employees.
+
+== Fehler-Report
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|Path |Parameter |Description |Return/Outpt
+|employees/add| wage as string | Input wage of an employee as a string | HTTP Status 400
+|employees/add| wage as decimal number | Input wage of an employee as number,number (eg. 2,5) | HTTP Status 400
+|employees/add| wage as decimal number | Input wage of an employee as number.number (eg. 2.5) | HTTP Status 400
+|employees/add| wage as negative number or 0 | Input wage of an employee as negative number | HTTP Status 200
+|employees/add| wage bigger than int32 | Input wage of an employee as bigger number than int32 can handle | HTTP Status 400
+|employees/changeWage| wage as string | Input wage of an employee as a string | HTTP Status 400
+|messages| admin access to messages | admin tries to click on link messages under "User Tools"| HTTP Status 500
+|employees| non admin accesses employees | Non admin can access the employee part and can add, fire and change wages | HTTP Status 200
+|finanzuebersicht| non admin accesses financial overview | Non admin can access the financial overview | HTTP Status 200
+|reparaturOrders| complete a repair order | When selecting an employee to complete a repair order, the repair order sometimes is created again with a different id| New completed repair order with different id but same details
+|reparaturOrders| complete a repair order and fire selected employee while repair order still in progress | After selecting an employee for a repair order and then firing the employee while the order is still assigned to the employee. The repair order disappears from the table and sometimes reappears as a repair order with a new id as a completed repair order| Table with repair orders isn't as it should be
+|warenkorb| admin accesses cart and adds and deletes products then tries to buy products | The admin can't buy products in the cart but can still add and delete products from the cart | either the admin shouldn't access the cart at all or the admin shouldn't be able to add and delete products or the admin should also be allowed to buy products from the cart
+|inventory| admin deletes stock until stock is 0 | The admin deletes the product from the inventory until the stock of the product is 0 even though the minimum stock is 1 | System allows this
+|inventory| admin creates new product | After an admin creates a new product in the catalog, the product isn't visible in the inventory | New catalog product not visible in the inventory
+|===
+
+== Other
+* Visual appearance of the application
+ - When an admin creates a new product with image dimensions different to image dimensions of already existing products, the dimensions of the text in the shop of the product is off
+ - The layout of the financial overview table overlaps on smaller screens and aren't readable anymore
+* Missing Features
+ - If the repair order is still in progress and you change the wage of the worker it doesn't recalculate the total price of the repair order
+ - The search bar doesn't have any functionality
+ - The inventory doesn't automatically restock
+ - Big amounts of money could have decimal places (eg. instead of 10015.0€ it could be 10.015,00€)
+* Interaction with the application (Usability)
+ - The error message "Nicht ausreichend auf Lager" is not readable on a device with darkmode
+ - Don't preselect Options for a custom grandfather clock (It may confuse the user and also makes it impossible for the user to tell whether they forgot to select an option)
+ - For many transactions it would be hard to differentiate earnings ("Einnahmen") and spendings ("Ausgaben"), a filter button would be useful
+
+== Suggestions for improvement
+* German as browser language
+ - FAQ: German second question should be "Wie ändere ich mein Passwort?"
+ - Catalog (Admin): text input placeholders should also be in German
+ - Catalog (Admin): "Image" and "Choose File" should be in German
+ - Inventory: "Minimum stock" and "Order Quantity" should be in German
+ - Employees: "Assigned orders" should be in German
+* English as browser langauge
+ - Repairs: in the select for the Clock Type the types should have English names
+ - Repair Orders: Delivery option and Materials should be in English if the table is in English
+ - Financial overview: Table should be in English when Table head is in English
+ - “Einnahme Bestellung”, “Einnahmen”, "Erfüllung des Auftrags ...", "Materialverbrauch ...", "Automatische Nachkaufen von ...", "Verlust" und “Ausgaben” is in German, but other Text such as "Total Income", "Total Expenses" and "Profit" and the table header is in English
+* Other
+- Change the name for Catalog because the difference between shop and catalog is not obvious and the name is confusing
+- Also have the search bar on the homepage
+- When creating a custom grandfather clock a picture to see the grandfatherclock would be nice
